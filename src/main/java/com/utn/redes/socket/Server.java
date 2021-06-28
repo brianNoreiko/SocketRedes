@@ -12,28 +12,25 @@ public class Server extends Connection{
     public void startServer(){
         try{
             System.out.println("Waiting for connection...");
-            socket = serverSocket.accept();
+            sc= serverSocket.accept();
             System.out.println("Client online");
 
-            clientExit = new DataOutputStream(socket.getOutputStream());
+            clientOutput = new DataOutputStream(sc.getOutputStream());
 
-            clientExit.writeUTF("Request received and accepted");
+            clientOutput.writeUTF("write a message");
 
-            BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader input = new BufferedReader(new InputStreamReader(sc.getInputStream()));
 
-            while ((serverMessage = input.readLine()) != null){
+            do {
+                serverMessage = input.readLine();
                 System.out.println(serverMessage);
-            }
+            }while (!serverMessage.equalsIgnoreCase("x"));
 
             System.out.println("End of connection");
+            serverSocket.close();
 
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-    }
-
-    public void stopServer() throws Exception {
-        System.out.println("Closing server... Bye!");
-        serverSocket.close();
     }
 }

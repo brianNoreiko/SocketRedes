@@ -9,16 +9,16 @@ public class Client extends Connection{
 
     public void startClient() {
         try {
-            serverExit = new DataOutputStream(socket.getOutputStream());
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            System.out.println("Client "+ socket.getInetAddress()+" connected");
+            serverOutput = new DataOutputStream(sc.getOutputStream());
+            PrintWriter out = new PrintWriter(sc.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            System.out.println("Client "+ sc.getInetAddress()+" connected");
             String inputLine;
             List<String> read = new ArrayList<>();
             while (true) {
 
-                if ((!(inputLine = in.readLine()).equals("x"))){
-                    System.out.println(socket.getInetAddress() + " says: " + inputLine);
+                if ((!(inputLine = in.readLine()).equalsIgnoreCase("x"))){
+                    System.out.println(sc.getInetAddress() + " says: " + inputLine);
                     read.add(inputLine);
                     System.out.println(read);
                 }
@@ -29,8 +29,8 @@ public class Client extends Connection{
             }
             in.close();
             out.close();
-            socket.close();
-            System.out.println("Client "+socket.getInetAddress()+" disconnected");
+            sc.close();
+            System.out.println("Client "+sc.getInetAddress()+" disconnected");
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
