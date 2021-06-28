@@ -2,30 +2,27 @@ package com.utn.redes.socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
+import java.util.Scanner;
 
 public class Client extends Connection{
 
     public Client() throws IOException{super("client");}
 
     public void startClient() {
+        Scanner scanner = new Scanner(System.in);
         try {
             serverOutput = new DataOutputStream(sc.getOutputStream());
-            PrintWriter out = new PrintWriter(sc.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(sc.getInputStream()));
+            PrintWriter out = new PrintWriter(sc.getOutputStream(), true);
             System.out.println("Client "+ sc.getInetAddress()+" connected");
-            String inputLine;
+            String inputLine="";
             List<String> read = new ArrayList<>();
-            while (true) {
-
-                if ((!(inputLine = in.readLine()).equalsIgnoreCase("x"))){
-                    System.out.println(sc.getInetAddress() + " says: " + inputLine);
-                    read.add(inputLine);
-                    System.out.println(read);
-                }
-                else {
-                    System.out.println("Closing client... Bye!");
-                    break;
-                }
+            while (!inputLine.equalsIgnoreCase("x")) {
+                System.out.println("Escribir Mensaje: ");
+                inputLine=scanner.nextLine();
+                out.println(inputLine);
+                read.add(inputLine);
+                System.out.println(in.readLine());
             }
             in.close();
             out.close();

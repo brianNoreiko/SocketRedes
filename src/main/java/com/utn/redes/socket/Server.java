@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 public class Server extends Connection{
 
     public Server() throws IOException{super("server");}    //Constructor for server connection
-
     public void startServer(){
         try{
             System.out.println("Waiting for connection...");
@@ -22,6 +21,7 @@ public class Server extends Connection{
             BufferedReader input = new BufferedReader(new InputStreamReader(sc.getInputStream()));
 
             do {
+                clientOutput.flush();
                 serverMessage = input.readLine();
                 System.out.println(serverMessage);
             }while (!serverMessage.equalsIgnoreCase("x"));
